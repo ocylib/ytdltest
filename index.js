@@ -1,6 +1,7 @@
 const { getInfo, downloadFromInfo, chooseFormat } = require('ytdl-core');
 const rangeParser = require('range-parser');
 const { slice } = require('stream-slice');
+const streamLength = require('stream-length');
 const http = require('http');
 const PORT = process.env.PORT || 80;
 
@@ -28,6 +29,7 @@ const server = http.createServer(async (req, res) => {
 
 	if (range) {
 		let { start, end } = rangeParser(contentLength, range)[0];
+		end = end < streamLength(stream) ? end : streamLength(stream);
 		res.writeHead(206, {
 			'Accept-Ranges': 'bytes',
 			'Content-Length': end - start + 1,
