@@ -7,7 +7,7 @@
 		"node": "14"
 	},
 	"scripts": {
-		"start": "node index.js"
+		"start": "node ."
 	},
 	"keywords": [],
 	"author": "OCY",
