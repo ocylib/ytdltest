@@ -1,17 +1,17 @@
 {
-  "name": "ytdl-test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "OCY",
-  "license": "ISC",
-  "dependencies": {
-    "range-parser": "^1.2.1",
-    "stream-slice": "^0.1.2",
-    "ytdl-core": "^4.9.1"
-  }
+	"name": "ytdl-test",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node inddex.js"
+	},
+	"keywords": [],
+	"author": "OCY",
+	"license": "ISC",
+	"dependencies": {
+		"range-parser": "^1.2.1",
+		"stream-slice": "^0.1.2",
+		"ytdl-core": "^4.9.1"
+	}
 }
