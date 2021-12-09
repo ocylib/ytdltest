@@ -2,6 +2,7 @@ const { getInfo, downloadFromInfo, chooseFormat } = require('ytdl-core');
 const rangeParser = require('range-parser');
 const { slice } = require('stream-slice');
 const http = require('http');
+const PORT = process.env.PORT || 80;
 
 const server = http.createServer(async (req, res) => {
 	const url = 'http://www.youtube.com/watch?v=aqz-KE-bpKQ';
@@ -42,4 +43,4 @@ const server = http.createServer(async (req, res) => {
 	}
 });
 
-server.listen(80, () => console.log('running'));
+server.listen(PORT, () => console.log('running'));
