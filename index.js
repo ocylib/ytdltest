@@ -5,13 +5,14 @@ const http = require('http');
 const PORT = process.env.PORT || 80;
 
 const server = http.createServer(async (req, res) => {
-	const url = 'http://www.youtube.com/watch?v=aqz-KE-bpKQ';
+	const url = 'https://www.youtube.com/watch?v=uVwtVBpw7RQ';
 	const {
 		headers: { range },
 	} = req;
 	const options = {
 		filter: 'audioandvideo',
 		quality: 'highestvideo',
+		highWaterMark: 1 << 25,
 	};
 	const info = await getInfo(url);
 	const formatInfo = chooseFormat(info.formats, options);
