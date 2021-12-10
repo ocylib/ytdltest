@@ -1,15 +1,14 @@
 const { getInfo, downloadFromInfo, chooseFormat } = require('ytdl-core');
 const rangeParser = require('range-parser');
-const { slice } = require('stream-slice');
-const streamLength = require('stream-length');
 const http = require('http');
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(async (req, res) => {
-	const url = 'https://www.youtube.com/watch?v=uVwtVBpw7RQ';
+	const url = 'https://www.youtube.com/watch?v=oxFr7we3LC8&t=1640s';
 	const {
 		headers: { range },
 	} = req;
+	console.log('range:', range);
 	const options = {
 		filter: 'audioandvideo',
 		quality: 'highestvideo',
@@ -29,14 +28,19 @@ const server = http.createServer(async (req, res) => {
 
 	if (range) {
 		let { start, end } = rangeParser(contentLength, range)[0];
-		end = end < streamLength(stream) ? end : streamLength(stream);
+		end = Math.min(start + (1 << 25), end);
 		res.writeHead(206, {
 			'Accept-Ranges': 'bytes',
 			'Content-Length': end - start + 1,
 			'Content-Type': `video/${container}`,
 			'Content-Range': `bytes ${start}-${end}/${contentLength}`,
 		});
-		stream.pipe(slice(start, end)).pipe(res);
+		const rangeStream = downloadFromInfo(info, {
+			...options,
+			range: { start, end },
+		});
+		rangeStream.once('progress', (a, b, t) => console.log('total:', t));
+		rangeStream.pipe(res);
 	} else {
 		res.writeHead(200, {
 			'Content-Length': contentLength,
