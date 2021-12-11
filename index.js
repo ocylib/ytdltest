@@ -8,11 +8,9 @@ const server = http.createServer(async (req, res) => {
 	const {
 		headers: { range },
 	} = req;
-	console.log('range:', range);
 	const options = {
 		filter: 'audioandvideo',
 		quality: 'highestvideo',
-		highWaterMark: 1 << 25,
 	};
 	const info = await getInfo(url);
 	const formatInfo = chooseFormat(info.formats, options);
@@ -25,10 +23,9 @@ const server = http.createServer(async (req, res) => {
 		);
 		contentLength = await p;
 	}
-
 	if (range) {
 		let { start, end } = rangeParser(contentLength, range)[0];
-		end = Math.min(start + (1 << 25), end);
+		end = Math.min(start + 1024 * 1024, end);
 		res.writeHead(206, {
 			'Accept-Ranges': 'bytes',
 			'Content-Length': end - start + 1,
@@ -39,7 +36,6 @@ const server = http.createServer(async (req, res) => {
 			...options,
 			range: { start, end },
 		});
-		rangeStream.once('progress', (a, b, t) => console.log('total:', t));
 		rangeStream.pipe(res);
 	} else {
 		res.writeHead(200, {
