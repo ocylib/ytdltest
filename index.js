@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(async (req, res) => {
 	try {
-		const url = 'https://www.youtube.com/watch?v=oxFr7we3LC8&t=1640s';
+		const url = 'https://www.youtube.com/watch?v=oxFr7we3LC8';
 		const {
 			headers: { range },
 		} = req;
@@ -14,8 +14,7 @@ const server = http.createServer(async (req, res) => {
 			quality: 'highestvideo',
 		};
 		const info = await getInfo(url);
-		const formatInfo = chooseFormat(info.formats, options);
-		let { contentLength, container } = formatInfo;
+		let { contentLength, container } = chooseFormat(info.formats, options);
 
 		const stream = downloadFromInfo(info, options);
 		if (!contentLength) {
@@ -47,6 +46,7 @@ const server = http.createServer(async (req, res) => {
 		}
 	} catch (error) {
 		console.log('ERROR:', error);
+		res.statusCode = 503;
 	}
 });
 
