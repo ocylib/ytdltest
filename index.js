@@ -1,5 +1,6 @@
 const Innertube = require('youtubei.js');
 const http = require('http');
+const PORT = process.env.PORT || 3000;
 (async () => {
 	const server = http.createServer(async (req, res) => {
 		try {
@@ -15,5 +16,5 @@ const http = require('http');
 			console.log('ERROR:', error);
 		}
 	});
-	server.listen(3000, () => console.log('running'));
+	server.listen(PORT, () => console.log('running'));
 })();
