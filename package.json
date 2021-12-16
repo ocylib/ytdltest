@@ -3,9 +3,6 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
-	"engines": {
-		"node": "14"
-	},
 	"scripts": {
 		"start": "node ."
 	},
@@ -15,6 +12,7 @@
 	"dependencies": {
 		"range-parser": "^1.2.1",
 		"youtubei.js": "^1.2.7",
+		"ytcog": "^2.1.2",
 		"ytdl-core": "^4.9.1"
 	}
 }

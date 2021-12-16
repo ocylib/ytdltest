@@ -22,6 +22,7 @@ const server = http.createServer(async (req, res) => {
 			},
 		};
 		const info = await getInfo(url);
+		console.log(info.formats);
 		let { contentLength, container } = chooseFormat(info.formats, options);
 
 		const stream = downloadFromInfo(info, options);
